@@ -1,0 +1,4 @@
+// Quase toda investigação começa por análise de logs (SIEMs, Splunk e sistemas forenses)
+
+// Detecção por limite são as quantidades de erros que podem ser encontradas no IP
+//então geralmente é suspeito
