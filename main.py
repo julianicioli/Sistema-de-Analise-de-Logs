@@ -1,13 +1,14 @@
 from collections import defaultdict             #importa a biblioteca defaultdict para criar um dicionário que retorna um valor padrão para chaves inexistentes
 from src.ip_lookup import get_ip_info
-from src.detector import detect_suspicious_hours 
+from src.detector import detect_hours 
+from src.accounts import detect_sucess_after_failures
 
 failed_attempts = defaultdict(int)
 
 with open ("logs/sample.log", "r", encoding="utf-8") as file:
     logs = file.readlines()
 
-suspicious_hours = detect_suspicious_hours(logs)
+hours = detect_hours(logs)  # chama a função de leitura de horários
 
 for log in logs:
     log = log.strip()       #retira espaços em branco no início e no final de cada linha do log
@@ -53,10 +54,11 @@ for ip in failed_attempts.keys():
         print(f"Organização: {info['org']}")
 
 # HORÁRIOS SUSPEITOS
-print("\n Horários Suspeitos:\n")
-for event in suspicious_hours:
+print("\n Horários Suspeitos:\n")  
+for event in hours:
     print(
-        f"{event['timestamp']}"
-        f" - IP {event['ip']}"
-        f" (hora: {event['hour']}h)"
+        f"Dia e Horário: {event['timestamp']}"
+        f"\nDepois de {event['attempts']} falhas"
+        f"\nIP {event['ip']}"
+        f" (hora: {event['hour']}h)\n"
     )
